@@ -8,6 +8,8 @@ public class MatrixWork {
 
 	public static void main(String[] args) {
 
+		runTests();
+
 		try {
 
 			// Using Scanner for Getting Input from User 
@@ -15,8 +17,11 @@ public class MatrixWork {
 			Scanner in = new Scanner(System.in);
 	
 			String filename = in.nextLine();
+			in.close();
+
 			Scanner fileIn = new Scanner(new File(filename));
 			List<int[][]> matrices = parseMatrices(fileIn);
+			fileIn.close();
 			
 			int A[][] = matrices.get(0);
 			int B[][] = matrices.get(1);
@@ -30,7 +35,7 @@ public class MatrixWork {
 				printMatrix(C);
 
 			} catch (IllegalArgumentException e) {
-				System.out.println("ERROR" + e);
+				System.out.println("The given two matrices are incompatible!");
 			}
 
 		} catch (Exception e) {
@@ -44,19 +49,19 @@ public class MatrixWork {
 	public static int[][] matrixProduct(int[][] A, int[][] B) throws IllegalArgumentException {
 		if (A[0].length != B.length) throw new IllegalArgumentException();
 		int n = A.length;
-
 		int resultMatrix[][] = new int[n][n];
+
+		
 
 		return A;
 	}
 
 	public static void printMatrix(int[][] matrix) {
 		for (int i = 0; i < matrix.length; i++) {
-			System.out.printf("| ");
 			for (int j = 0; j < matrix[0].length; j++) {
 				System.out.printf(matrix[i][j] + " ");
 			}
-			System.out.printf("|\n");
+			System.out.println();
 		}
 		System.out.println();
 	}
@@ -78,6 +83,45 @@ public class MatrixWork {
 			matrices.add(i, matrix);
 		}
 		return matrices;
+	}
+
+	public static boolean areMatricesEqual(int[][] A, int[][] B) {
+		for (int i = 0; i < A.length; i++) {
+			for (int j = 0; j < A[0].length; j++) {
+				if (A[i][j] != B[i][j]) return false;
+			}
+		}
+		return true;
+	}
+
+	public static void runTests() {
+		for (int testNum = 1; testNum <= 6; testNum++) {
+
+			try {
+
+				System.out.println("TEST " + testNum + " OUTPUT:");
+
+				Scanner fileIn = new Scanner(new File("tests/test" + testNum));
+				List<int[][]> matrices = parseMatrices(fileIn);
+				fileIn.close();
+
+				int A[][] = matrices.get(0);
+				int B[][] = matrices.get(1);
+
+				try {
+
+					int C[][] = matrixProduct(A, B);
+					printMatrix(C);
+
+				} catch (IllegalArgumentException e) {
+					System.out.println("The given two matrices are incompatible!");
+				}
+
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+
+		}
 	}
 
 }
