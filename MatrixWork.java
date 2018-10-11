@@ -12,17 +12,17 @@ public class MatrixWork {
 
 		try {
 
-			// Using Scanner for Getting Input from User 
+			// Using Scanner for Getting Input from User
 			System.out.printf("Input File: ");
 			Scanner in = new Scanner(System.in);
-	
+
 			String filename = in.nextLine();
 			in.close();
 
 			Scanner fileIn = new Scanner(new File(filename));
 			List<int[][]> matrices = parseMatrices(fileIn);
 			fileIn.close();
-			
+
 			int A[][] = matrices.get(0);
 			int B[][] = matrices.get(1);
 
@@ -42,18 +42,24 @@ public class MatrixWork {
 			System.out.println("ERROR: " + e);
 		}
 
-		
+
 	}
 
 	// int[col][row]
 	public static int[][] matrixProduct(int[][] A, int[][] B) throws IllegalArgumentException {
-		if (A[0].length != B.length) throw new IllegalArgumentException();
+      int Arows = A[0].length, Bcols = B.length;
+		if (Arows != Bcols) throw new IllegalArgumentException();
 		int n = A.length;
 		int resultMatrix[][] = new int[n][n];
+      for (int i = 0; i < Arows; i++) {
+         for (int j = 0; j < Bcols; j++) {
+            for (int k = 0; k < A.length; k++) {
+               resultMatrix[i][j] += A[i][k] * B[k][j];
+            }
+         }
+      }
 
-		
-
-		return A;
+		return resultMatrix;
 	}
 
 	public static void printMatrix(int[][] matrix) {
