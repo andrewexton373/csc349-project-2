@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.io.File;
 
 public class MatrixWork {
-
 	public static void main(String[] args) {
 
 		runTests();
@@ -47,8 +46,9 @@ public class MatrixWork {
 
 	// int[col][row]
 	public static int[][] matrixProduct(int[][] A, int[][] B) throws IllegalArgumentException {
-      int Arows = A[0].length, Bcols = B.length;
+      	int Arows = A[0].length, Bcols = B.length;
 		if (Arows != Bcols) throw new IllegalArgumentException();
+		
 		int n = A.length;
 		int m = B[0].length;
 		int p = A[0].length;
