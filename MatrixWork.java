@@ -15,7 +15,7 @@ import java.io.File;
 public class MatrixWork {
 	public static void main(String[] args) {
 
-		runTests();
+		// runTests();
 
 		try {
 
@@ -26,15 +26,14 @@ public class MatrixWork {
 			String filename = in.nextLine();
 			in.close();
 
+			System.out.println();
+
 			Scanner fileIn = new Scanner(new File(filename));
 			List<int[][]> matrices = parseMatrices(fileIn);
 			fileIn.close();
 
 			int A[][] = matrices.get(0);
 			int B[][] = matrices.get(1);
-
-			printMatrix(A);
-			printMatrix(B);
 
 			try {
 
