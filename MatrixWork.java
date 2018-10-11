@@ -49,11 +49,21 @@ public class MatrixWork {
 	public static int[][] matrixProduct(int[][] A, int[][] B) throws IllegalArgumentException {
 		if (A[0].length != B.length) throw new IllegalArgumentException();
 		int n = A.length;
-		int resultMatrix[][] = new int[n][n];
+		int p = A[0].length;
+		int m = B[0].length;
 
-		
+		int resultMatrix[][] = new int[n][m];
+		for (int i=0; i < n; i++) Arrays.fill(resultMatrix[i], 0);
 
-		return A;
+		for (int i=0; i < n; i++) {
+			for (int j=0; j < m; j++) {
+				for (int k=0; k < p; k++) {
+					resultMatrix[i][j] = resultMatrix[i][j] + (A[i][k] * B[k][j]);
+				}
+			}
+		}
+
+		return resultMatrix;
 	}
 
 	public static void printMatrix(int[][] matrix) {
@@ -95,7 +105,7 @@ public class MatrixWork {
 	}
 
 	public static void runTests() {
-		for (int testNum = 1; testNum <= 6; testNum++) {
+		for (int testNum = 1; testNum <= 9; testNum++) {
 
 			try {
 
