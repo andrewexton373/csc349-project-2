@@ -50,8 +50,8 @@ public class MatrixWork {
       int Arows = A[0].length, Bcols = B.length;
 		if (Arows != Bcols) throw new IllegalArgumentException();
 		int n = A.length;
-		int p = A[0].length;
 		int m = B[0].length;
+		int p = A[0].length;
 
 		int resultMatrix[][] = new int[n][m];
 		for (int i=0; i < n; i++) Arrays.fill(resultMatrix[i], 0);
