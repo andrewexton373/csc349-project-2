@@ -2,7 +2,7 @@
 /*
     Andrew Exton - aexton
     Jett Moy - jlmoy
-    October 1st, 2018
+    October 10th, 2018
     ALGORITHMS - Project 2 Part 1
 */
 
