@@ -1,3 +1,11 @@
+
+/*
+    Andrew Exton - aexton
+    Jett Moy - jlmoy
+    October 1st, 2018
+    ALGORITHMS - Project 2 Part 1
+*/
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +56,7 @@ public class MatrixWork {
 	public static int[][] matrixProduct(int[][] A, int[][] B) throws IllegalArgumentException {
       	int Arows = A[0].length, Bcols = B.length;
 		if (Arows != Bcols) throw new IllegalArgumentException();
-		
+
 		int n = A.length;
 		int m = B[0].length;
 		int p = A[0].length;
