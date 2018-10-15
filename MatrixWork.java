@@ -99,8 +99,6 @@ public class MatrixWork {
 			}
 			matrices.add(i, matrix);
 		}
-      printMatrix(matrices.get(0));
-      printMatrix(matrices.get(1));
 		return matrices;
 	}
 
