@@ -31,7 +31,7 @@ public class MatrixProduct {
       }
       return C;
    }
-   private int[]][] addMatrices(int [][] A, int[][] B, int n) {
+   private int[][] addMatrices(int [][] A, int[][] B, int n) {
       int[][] result = new int[n][n];
       for (int i = 0; i < n; i++) {
          for (int j = 0; j < n; j++) {
@@ -44,8 +44,9 @@ public class MatrixProduct {
    private static boolean validityCheck(int[][] A, int[][]B) {
       if (A.length == B.length &&
          A[0].length == B[0].length &&
+         A.length == A[0].length &&
          isSquare(A.length) &&
-         isSquare(A[0].length))
+         A.length % 2 == 0)
          return false;
       return true;
    }
@@ -55,6 +56,56 @@ public class MatrixProduct {
    }
 
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
-   public static int[][] matrixProduct_Strassen(int[][] A, int[][] B)
+   public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
+      if (validityCheck(A, B)) throw new IllegalArgumentException();
+
+      strassenAdds(A, B, A.length);
+
+   }
+
+   private int[][] strassenAdds(int[][] A, int[][] B, int n) {
+      int mid = A.length/2;
+      s1 = B12 - B22
+      int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, n);
+      s2 = A11 + A12
+      int[][] s2 = addMatrices(A, 0, 0, B, 0, mid, n);
+      s3 = A21 + A22
+      int[][] s3 = addMatrices(A, mid, 0, A, mid, mid, n);
+      S4 = B21 - B11
+      int[][] s4 = subMatrices(B, mid, 0, B, 0, 0, n);
+      s5 = A11 + A22
+      int[][] s5 = addMatrices(A, 0, 0, A, mid, mid, n);
+      s6 = B11 + B22
+      int[][] s6 = addMatrices(B, 0, 0, B, mid, mid, n);
+      s7 = A12 - A22
+      int[][] s7 = subMatrices(A, 0, mid, A, mid, mid, n);
+      s8 = B21 + B22
+      int[][] s8 = addMatrices(B, mid, 0, B, mid, mid, n);
+      s9 = A11 - A21
+      int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, n);
+      s10 = B11 + B12
+      int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
+
+   }
+
+   private int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+      int[][] result = new int[n][n];
+      for (int i = 0, int colA = startColA, int colB = startColB; i < n; i++, colA++, colB++) {
+         for (int rowA = startRowA, int rowB = startRowB, int j = 0; j < n; j++, rowA++, rowB++) {
+            result[i][j] = A[colA][rowA] - B[colB][rowB];
+         }
+      }
+      return result;
+   }
+
+   private int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+      int[][] result = new int[n][n];
+      for (int i = 0, int colA = startColA, int colB = startColB; i < n; i++, colA++, colB++) {
+         for (int rowA = startRowA, int rowB = startRowB, int j = 0; j < n; j++, rowA++, rowB++) {
+            result[i][j] = A[colA][rowA] + B[colB][rowB];
+         }
+      }
+      return result;
+   }
 
 }
