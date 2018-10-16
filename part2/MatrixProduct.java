@@ -2,13 +2,14 @@
     Andrew Exton - aexton
     Jett Moy - jlmoy
     October 10th, 2018
-    ALGORITHMS - Project 2 Part 1
+    ALGORITHMS - Project 2 Part 2
 */
 
 public class MatrixProduct {
 
     //Compute and return the product of A, B matrices using “simple” DAC algorithm presented in class.
    public static int[][] matrixProduct_DAC (int[][] A, int[][] B) throws IllegalArgumentException {
+        System.out.println("CHECK: " +validityCheck(A, B));
       if (!validityCheck(A, B)) throw new IllegalArgumentException();
       return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
@@ -19,14 +20,30 @@ public class MatrixProduct {
          C[0][0] = A[startRowA][startColA] * B[startRowB][startColB]; // C has 1 element
       else {
          int midpoint = n/2;
+
          // C11 = A11 * B11 + A12 * B21
-         int[][] C11 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , 0, midpoint), midpoint);
+         int[][] C11 = addMatrices(
+            matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint),
+            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint),
+            midpoint);
+
          // C12 = A11 * B12 + A12 * B22
-         int[][] C12 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , midpoint , midpoint), midpoint);
+         int[][] C12 = addMatrices(
+            matrixProductRecurrsive(A, 0, 0, B, 0, midpoint, midpoint),
+            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, midpoint, midpoint),
+            midpoint);
+
          // C21 = A21 * B21 + A22 * B21
-         int[][] C21 = addMatrices(matrixProductRecurrsive(A, 0, midpoint , B, 0, 0, midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , 0, midpoint), midpoint);
+         int[][] C21 = addMatrices(
+            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, 0, midpoint),
+            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, 0, midpoint),
+            midpoint);
+
          // C22 = A21 * B22 + A22 * B22
-         int[][] C22 = addMatrices(matrixProductRecurrsive(A, midpoint , 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , midpoint , midpoint), midpoint);
+         int[][] C22 = addMatrices(
+            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, midpoint, midpoint),
+            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
+            midpoint);
       
         C = constructMatrixFromQuadrants(C11, C12, C21, C22);
 
@@ -35,7 +52,7 @@ public class MatrixProduct {
     return C;
    }
 
-   public static int[][] constructMatrixFromQuadrants(int[][] Q11, int[][] Q12, int[][] Q21, int[][] Q22) {
+    public static int[][] constructMatrixFromQuadrants(int[][] Q11, int[][] Q12, int[][] Q21, int[][] Q22) {
         int quadN = Q11.length;
         int[][] result  = new int[quadN*2][quadN*2];
         for (int i = 0; i < quadN; i++) {
@@ -47,33 +64,48 @@ public class MatrixProduct {
             }
         }
         return result;
-   }
+    }
 
    public static int[][] addMatrices(int [][] A, int[][] B, int n) {
        return addMatrices(A, 0, 0, B, 0, 0, n); // refactor to use other method
    }
 
    private static boolean validityCheck(int[][] A, int[][]B) {
-      if (A.length == B.length &&
-         A[0].length == B[0].length &&
-         A.length == A[0].length &&
-         isSquare(A.length) &&
-         A.length % 2 == 0)
-         return false;
-      return true;
+        // System.out.println(A.length);
+
+        // System.out.println(A.length == B.length);
+        // System.out.println(A[0].length == B[0].length);
+        // System.out.println(A.length == A[0].length);
+        // System.out.println(isSquare(A.length));
+        // System.out.println(A.length % 2 == 0);
+
+        if (
+            A.length == B.length &&
+            A[0].length == B[0].length &&
+            A.length == A[0].length &&
+            isSquare(A.length) &&
+            A.length % 2 == 0
+        )
+        {
+            return true; // is Valid
+        } else {
+            return false; // is inValid
+        }
    }
-   public static boolean isSquare(int n) {
+
+    public static boolean isSquare(int n) {
+        if (n == 1 || n == 2) return true; // base cases?
         for (int i = 0; i < n / 2 + 2; i++) {
             if (i * i == n) {
                 return true;
             }
         }
         return false;
-   }
+    }
 
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
    public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
-      if (validityCheck(A, B)) throw new IllegalArgumentException();
+      if (!validityCheck(A, B)) throw new IllegalArgumentException();
       int[][] C = strassenAdds(A, B, A.length);
       return C;
    }
