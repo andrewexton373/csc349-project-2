@@ -66,42 +66,7 @@ public class MatrixProduct {
         return result;
     }
 
-   public static int[][] addMatrices(int [][] A, int[][] B, int n) {
-       return addMatrices(A, 0, 0, B, 0, 0, n); // refactor to use other method
-   }
-
-   private static boolean validityCheck(int[][] A, int[][]B) {
-        // System.out.println(A.length);
-
-        // System.out.println(A.length == B.length);
-        // System.out.println(A[0].length == B[0].length);
-        // System.out.println(A.length == A[0].length);
-        // System.out.println(isSquare(A.length));
-        // System.out.println(A.length % 2 == 0);
-
-        if (
-            A.length == B.length &&
-            A[0].length == B[0].length &&
-            A.length == A[0].length &&
-            isSquare(A.length) &&
-            A.length % 2 == 0
-        )
-        {
-            return true; // is Valid
-        } else {
-            return false; // is inValid
-        }
-   }
-
-    public static boolean isSquare(int n) {
-        if (n == 1 || n == 2) return true; // base cases?
-        for (int i = 0; i < n / 2 + 2; i++) {
-            if (i * i == n) {
-                return true;
-            }
-        }
-        return false;
-    }
+   
 
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
    public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
@@ -136,23 +101,29 @@ public class MatrixProduct {
     return s1; // for now...
    }
 
-   public static int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-        int[][] negatedB = negateMatrix(B);
-        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, n);
-        return result;
-   }
+    private static boolean validityCheck(int[][] A, int[][] B) {
+        // System.out.println(A.length);
 
-   public static int[][] negateMatrix(int[][] matrix) {
-       int n = matrix.length;
-        int[][] negatedMatrix = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                negatedMatrix[i][j] = -matrix[i][j]; // negate value
-            }
+        // System.out.println(A.length == B.length);
+        // System.out.println(A[0].length == B[0].length);
+        // System.out.println(A.length == A[0].length);
+        // System.out.println(isSquare(A.length));
+        // System.out.println(A.length % 2 == 0);
+
+        if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isSquare(A.length)
+                && A.length % 2 == 0) {
+            return true; // is Valid
+        } else {
+            return false; // is inValid
         }
-        return negatedMatrix;
-   }
+    }
 
+    // For adding whole matrices
+    public static int[][] addMatrices(int[][] A, int[][] B, int n) {
+        return addMatrices(A, 0, 0, B, 0, 0, n); // refactor to use other method
+    }
+
+    // For adding 1 quadrant from each of 2 matrices
    public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
         int[][] result = new int[n][n];  
         int colA, colB, rowA, rowB;
@@ -171,5 +142,34 @@ public class MatrixProduct {
         }
         return result;
    }
+
+    public static int[][] subMatrices(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB,
+            int n) {
+        int[][] negatedB = negateMatrix(B);
+        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, n);
+        return result;
+    }
+
+    public static int[][] negateMatrix(int[][] matrix) {
+        int n = matrix.length;
+        int[][] negatedMatrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                negatedMatrix[i][j] = -matrix[i][j]; // negate value
+            }
+        }
+        return negatedMatrix;
+    }
+
+    public static boolean isSquare(int n) {
+        if (n == 1 || n == 2)
+            return true; // base cases?
+        for (int i = 0; i < n / 2 + 2; i++) {
+            if (i * i == n) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
