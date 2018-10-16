@@ -137,15 +137,20 @@ public class MatrixProduct {
    }
 
    public static int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-        int[][] negatedB = new int[n][n];
-        // negate B
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                negatedB[i][j] = -B[i][j]; // negate value
-            }
-        }
+        int[][] negatedB = negateMatrix(B);
         int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, n);
         return result;
+   }
+
+   public static int[][] negateMatrix(int[][] matrix) {
+       int n = matrix.length;
+        int[][] negatedMatrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                negatedMatrix[i][j] = -matrix[i][j]; // negate value
+            }
+        }
+        return negatedMatrix;
    }
 
    public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
