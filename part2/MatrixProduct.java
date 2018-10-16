@@ -2,57 +2,54 @@
     Andrew Exton - aexton
     Jett Moy - jlmoy
     October 10th, 2018
-    ALGORITHMS - Project 2 Part 1
+    ALGORITHMS - Project 2 Part 2
 */
 
 public class MatrixProduct {
 
     //Compute and return the product of A, B matrices using “simple” DAC algorithm presented in class.
    public static int[][] matrixProduct_DAC (int[][] A, int[][] B) throws IllegalArgumentException {
-      if (validityCheck(A, B)) throw new IllegalArgumentException();
-
-      return matrixProductRecurrsive(A, B, 0, 0, 0, 0, A.length);
+        System.out.println("CHECK: " +validityCheck(A, B));
+      if (!validityCheck(A, B)) throw new IllegalArgumentException();
+      return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
 
-   private int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startrowB, int startcolB, int n) {
-      int[][] C = new int[][];
+   private static int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+      int[][] C = new int[A.length][A.length];
       if (n == 1)
-         C[0,0] = A[startrowA, startColA] * B[startrowoB, startcolB] // C has 1 element
+         C[0][0] = A[startRowA][startColA] * B[startRowB][startColB]; // C has 1 element
       else {
          int midpoint = n/2;
-         // C11 = A11 * B11 + A12 * B21
-         int[][] c11 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , 0, midpoint), midpoint);
-         // C12 = A11 * B12 + A12 * B22
-         int[][] c12 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , midpoint , midpoint), midpoint);
-         // C21 = A21 * B21 + A22 * B21
-         int[][] c21 = addMatrices(matrixProductRecurrsive(A, 0, midpoint , B, 0, 0), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , 0, midpoint), midpoint);
-         // C22 = A21 * B22 + A22 * B22
-         int[][] c22 = addMatrices(matrixProductRecurrsive(A, midpoint , 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , midpoint , midpoint), midpoint);
-      }
-      return C;
-   }
-   private int[][] addMatrices(int [][] A, int[][] B, int n) {
-      int[][] result = new int[n][n];
-      for (int i = 0; i < n; i++) {
-         for (int j = 0; j < n; j++) {
-            result[i][j] = A[i][j] + B[i][j];
-         }
-      }
-      return result;
-   }
 
-   private static boolean validityCheck(int[][] A, int[][]B) {
-      if (A.length == B.length &&
-         A[0].length == B[0].length &&
-         A.length == A[0].length &&
-         isSquare(A.length) &&
-         A.length % 2 == 0)
-         return false;
-      return true;
-   }
-   private boolean isSquare(int n) {
-      double sqrt = Math.sqrt(n);
-      return ((sqrt - Math.floor(sqrt)) == 0)
+         // C11 = A11 * B11 + A12 * B21
+         int[][] C11 = addMatrices(
+            matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint),
+            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint),
+            midpoint);
+
+         // C12 = A11 * B12 + A12 * B22
+         int[][] C12 = addMatrices(
+            matrixProductRecurrsive(A, 0, 0, B, 0, midpoint, midpoint),
+            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, midpoint, midpoint),
+            midpoint);
+
+         // C21 = A21 * B21 + A22 * B21
+         int[][] C21 = addMatrices(
+            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, 0, midpoint),
+            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, 0, midpoint),
+            midpoint);
+
+         // C22 = A21 * B22 + A22 * B22
+         int[][] C22 = addMatrices(
+            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, midpoint, midpoint),
+            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
+            midpoint);
+
+        C = constructMatrixFromQuadrants(C11, C12, C21, C22);
+
+    }
+
+    return C;
    }
 
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
@@ -64,7 +61,28 @@ public class MatrixProduct {
       strassenS(A, B, n);
       strassenP();
       strassenC();
+   }
 
+ public static int[][] constructMatrixFromQuadrants(int[][] Q11, int[][] Q12, int[][] Q21, int[][] Q22) {
+     int quadN = Q11.length;
+     int[][] result  = new int[quadN*2][quadN*2];
+     for (int i = 0; i < quadN; i++) {
+         for (int j = 0; j < quadN; j++) {
+             result[i][j] = Q11[i][j];
+             result[i + quadN][j] = Q21[i][j];
+             result[i][j + quadN] = Q12[i][j];
+             result[i + quadN][j + quadN] = Q22[i][j];
+         }
+     }
+     return result;
+ }
+
+
+    //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
+   public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
+      if (!validityCheck(A, B)) throw new IllegalArgumentException();
+      int[][] C = strassenAdds(A, B, A.length);
+      return C;
    }
 
    private int[][] strassenS(int[][] A, int[][] B, int n) {
@@ -88,44 +106,96 @@ public class MatrixProduct {
       // s9 = A11 - A21
       int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, n);
       // s10 = B11 + B12
+
       int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
    }
 
    private int[][] strassenP(int[][]A, int[][] B, int n) {
-      p1 = A11 * S1
-      p2 = s2 * B22
-      p3 = s3 * B11
-      p4 = A22 * s4
-      p5 = s5 * s6
-      p6 = s7 * s8
-      p7 = s9 * s10
+      // p1 = A11 * S1
+      // p2 = s2 * B22
+      // p3 = s3 * B11
+      // p4 = A22 * s4
+      // p5 = s5 * s6
+      // p6 = s7 * s8
+      // p7 = s9 * s10
    }
 
    private int[][] strassenC(int[][] A, int[][] B, int n) {
-      C11 = p5 + p4 - p2 + p6
-      C12 = p1 + p2
-      C21 = p3 + p4
-      C22 = p5 + p1 - p3 - p7
+      // C11 = p5 + p4 - p2 + p6
+      // C12 = p1 + p2
+      // C21 = p3 + p4
+      // C22 = p5 + p1 - p3 - p7
    }
 
-   private int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
-      for (int i = 0, int colA = startColA, int colB = startColB; i < n; i++, colA++, colB++) {
-         for (int rowA = startRowA, int rowB = startRowB, int j = 0; j < n; j++, rowA++, rowB++) {
-            result[i][j] = A[colA][rowA] - B[colB][rowB];
-         }
-      }
-      return result;
+    private static boolean validityCheck(int[][] A, int[][] B) {
+        // System.out.println(A.length);
+
+        // System.out.println(A.length == B.length);
+        // System.out.println(A[0].length == B[0].length);
+        // System.out.println(A.length == A[0].length);
+        // System.out.println(isSquare(A.length));
+        // System.out.println(A.length % 2 == 0);
+
+        if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isSquare(A.length)
+                && A.length % 2 == 0) {
+            return true; // is Valid
+        } else {
+            return false; // is inValid
+        }
+    }
+
+    // For adding whole matrices
+    public static int[][] addMatrices(int[][] A, int[][] B, int n) {
+        return addMatrices(A, 0, 0, B, 0, 0, n); // refactor to use other method
+    }
+
+    // For adding 1 quadrant from each of 2 matrices
+   public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+        int[][] result = new int[n][n];
+        int colA, colB, rowA, rowB;
+        colA = startColA;
+        colB = startColB;
+        for (int i = 0; i < n; i++) {
+                rowA = startRowA;
+                rowB = startRowB;
+                for (int j = 0; j < n; j++) {
+                    result[i][j] = A[colA][rowA] + B[colB][rowB];
+                    rowA++;
+                    rowB++;
+                }
+                colA++;
+                colB++;
+        }
+        return result;
    }
 
-   private int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
-      for (int i = 0, int colA = startColA, int colB = startColB; i < n; i++, colA++, colB++) {
-         for (int rowA = startRowA, int rowB = startRowB, int j = 0; j < n; j++, rowA++, rowB++) {
-            result[i][j] = A[colA][rowA] + B[colB][rowB];
-         }
-      }
-      return result;
-   }
+    public static int[][] subMatrices(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB,
+            int n) {
+        int[][] negatedB = negateMatrix(B);
+        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, n);
+        return result;
+    }
+
+    public static int[][] negateMatrix(int[][] matrix) {
+        int n = matrix.length;
+        int[][] negatedMatrix = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                negatedMatrix[i][j] = -matrix[i][j]; // negate value
+            }
+        }
+        return negatedMatrix;
+    }
+
+    public static boolean isSquare(int n) {
+        if (n == 1 || n == 2)
+            return true; // base cases?
+        for (int i = 0; i < n / 2 + 2; i++) {
+            if (i * i == n) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
