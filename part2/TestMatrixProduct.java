@@ -29,9 +29,6 @@ public class TestMatrixProduct {
         System.out.println("TEST ADD MATRIX QUAD SIMPLE 2: " + (passed ? "PASSED" : "FAILED"));
     }
 
-
-
-
     // public static int[][] addMatrices(
         // int [][] A, int startRowA, int startColA,
         // int[][] B, int startRowB, int startColB, int n)
