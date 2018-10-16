@@ -14,10 +14,10 @@ public class MatrixProduct {
       return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
 
-   private static int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startrowB, int startcolB, int n) {
+   private static int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
       int[][] C = new int[A.length][A.length];
       if (n == 1)
-         C[0][0] = A[startrowA][startColA] * B[startrowB][startcolB]; // C has 1 element
+         C[0][0] = A[startRowA][startColA] * B[startRowB][startColB]; // C has 1 element
       else {
          int midpoint = n/2;
          // C11 = A11 * B11 + A12 * B21
@@ -31,14 +31,9 @@ public class MatrixProduct {
       }
       return C;
    }
-   private static int[][] addMatrices(int [][] A, int[][] B, int n) {
-      int[][] result = new int[n][n];
-      for (int i = 0; i < n; i++) {
-         for (int j = 0; j < n; j++) {
-            result[i][j] = A[i][j] + B[i][j];
-         }
-      }
-      return result;
+
+   public static int[][] addMatrices(int [][] A, int[][] B, int n) {
+       return addMatrices(A, 0, 0, B, 0, 0, n); // refactor to use other method
    }
 
    private static boolean validityCheck(int[][] A, int[][]B) {
@@ -50,7 +45,7 @@ public class MatrixProduct {
          return false;
       return true;
    }
-   private static boolean isSquare(int n) {
+   public static boolean isSquare(int n) {
       double sqrt = Math.sqrt(n);
       return ((sqrt - Math.floor(sqrt)) == 0);
    }
@@ -58,12 +53,11 @@ public class MatrixProduct {
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
    public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
       if (validityCheck(A, B)) throw new IllegalArgumentException();
-
-      strassenAdds(A, B, A.length);
-
+      int[][] C = strassenAdds(A, B, A.length);
+      return C;
    }
 
-   private static int[][] strassenAdds(int[][] A, int[][] B, int n) {
+   public static int[][] strassenAdds(int[][] A, int[][] B, int n) {
       int mid = A.length/2;
     //   s1 = B12 - B22
       int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, n);
@@ -86,44 +80,40 @@ public class MatrixProduct {
     //   s10 = B11 + B12
       int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
 
+    return s1; // for now...
    }
 
-   private static int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
-      int colA, colB, rowA, rowB;
-      for (int i = 0; i < n; i++) {
-          colA = startColA;
-          colB = startColB;
-         for ( j = 0; j < n; j++, rowA++, rowB++) {
-            rowA = startRowA;
-            rowB = startRowB;
-            result[i][j] = A[colA][rowA] - B[colB][rowB];
-            rowA++;
-            rowB++;
-         }
-         colA++;
-         colB++;
-      }
-      return result;
-   }
-
-   private static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] result = new int[n][n];
-      int colA, colB, rowA, rowB;
-      for (int i = 0; i < n; i++) {
-            colA = startColA;
-            colB = startColB;
+   public static int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+        int size = Math.min(n-startRowA, n-startColA);
+        int[][] negatedB = new int[size][size];
+        // negate B
+        for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
+                negatedB[i][j] = -B[i][j]; // negate value
+            }
+        }
+        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, size);
+        return result;
+   }
+
+   public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
+        int size = Math.min(n - startRowA, n - startColA);
+        int[][] result = new int[size][size];  
+        int colA, colB, rowA, rowB;
+        colA = startColA;
+        colB = startColB;
+        for (int i = 0; i < n; i++) {
                 rowA = startRowA;
                 rowB = startRowB;
-                result[i][j] = A[colA][rowA] + B[colB][rowB];
-                rowA++;
-                rowB++;
-            }
-            colA++;
-            colB++;
-      }
-      return result;
+                for (int j = 0; j < n; j++) {
+                    result[i][j] = A[colA][rowA] + B[colB][rowB];
+                    rowA++;
+                    rowB++;
+                }
+                colA++;
+                colB++;
+        }
+        return result;
    }
 
 }
