@@ -84,21 +84,19 @@ public class MatrixProduct {
    }
 
    public static int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-        int size = Math.min(n-startRowA, n-startColA);
-        int[][] negatedB = new int[size][size];
+        int[][] negatedB = new int[n][n];
         // negate B
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 negatedB[i][j] = -B[i][j]; // negate value
             }
         }
-        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, size);
+        int[][] result = addMatrices(A, startRowA, startColA, negatedB, startRowB, startColB, n);
         return result;
    }
 
    public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-        int size = Math.min(n - startRowA, n - startColA);
-        int[][] result = new int[size][size];  
+        int[][] result = new int[n][n];  
         int colA, colB, rowA, rowB;
         colA = startColA;
         colB = startColB;

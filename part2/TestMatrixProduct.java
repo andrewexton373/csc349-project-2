@@ -1,8 +1,35 @@
 public class TestMatrixProduct {
     public static void main(String args[]) {
         testAddMatricesSimple();
+        testAddMatricesQuadrant();
         testSubMatricesSimple();
     }
+
+    public static void testAddMatricesQuadrant() {
+
+        boolean passed = true;
+        int[][] A = {{1, 2},{3, 4}};
+        int[][] B = {{0, 0},{0, 1}};
+
+        // printMatrix(A);
+        // printMatrix(B);
+
+        int midpoint = A.length/2;
+        int[][] C = MatrixProduct.addMatrices(A, midpoint, midpoint, B, midpoint, midpoint, midpoint);
+
+        // printMatrix(C);
+
+        if (C.length != 1) passed = false;
+        if (C[0].length != 1) passed = false;
+        if (C[0][0] != 5) passed = false;
+        System.out.println("TEST ADD MATRIX QUAD SIMPLE 1: " + (passed ? "PASSED" : "FAILED"));
+
+        int[][] D = MatrixProduct.addMatrices(A, 0, midpoint, B, 0, midpoint, midpoint);
+        if (D[0][0] != 3) passed = false;
+        System.out.println("TEST ADD MATRIX QUAD SIMPLE 2: " + (passed ? "PASSED" : "FAILED"));
+    }
+
+
 
 
     // public static int[][] addMatrices(
