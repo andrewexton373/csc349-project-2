@@ -28,17 +28,25 @@ public class MatrixProduct {
          // C22 = A21 * B22 + A22 * B22
          int[][] C22 = addMatrices(matrixProductRecurrsive(A, midpoint , 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , midpoint , midpoint), midpoint);
       
-        for (int i = 0; i < midpoint; i++) {
-            for (int j = 0; j < midpoint; j++) {
-                C[i][j] = C11[i][j];
-                C[i + midpoint][j] = C21[i][j];
-                C[i][j + midpoint] = C12[i][j];
-                C[i + midpoint][j + midpoint] = C22[i][j];
-            }
-        }
+        C = constructMatrixFromQuadrants(C11, C12, C21, C22);
+
     } 
 
     return C;
+   }
+
+   public static int[][] constructMatrixFromQuadrants(int[][] Q11, int[][] Q12, int[][] Q21, int[][] Q22) {
+        int quadN = Q11.length;
+        int[][] result  = new int[quadN*2][quadN*2];
+        for (int i = 0; i < quadN; i++) {
+            for (int j = 0; j < quadN; j++) {
+                result[i][j] = Q11[i][j];
+                result[i + quadN][j] = Q21[i][j];
+                result[i][j + quadN] = Q12[i][j];
+                result[i + quadN][j + quadN] = Q22[i][j];
+            }
+        }
+        return result;
    }
 
    public static int[][] addMatrices(int [][] A, int[][] B, int n) {
