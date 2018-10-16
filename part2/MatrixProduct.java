@@ -58,34 +58,54 @@ public class MatrixProduct {
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
    public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
       if (validityCheck(A, B)) throw new IllegalArgumentException();
+      int n = A.length;
+      int[][] C =  new int[n][n];
 
-      strassenAdds(A, B, A.length);
+      strassenS(A, B, n);
+      strassenP();
+      strassenC();
 
    }
 
-   private int[][] strassenAdds(int[][] A, int[][] B, int n) {
+   private int[][] strassenS(int[][] A, int[][] B, int n) {
       int mid = A.length/2;
-      s1 = B12 - B22
+      // s1 = B12 - B22
       int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, n);
-      s2 = A11 + A12
+      // s2 = A11 + A12
       int[][] s2 = addMatrices(A, 0, 0, B, 0, mid, n);
-      s3 = A21 + A22
+      // s3 = A21 + A22
       int[][] s3 = addMatrices(A, mid, 0, A, mid, mid, n);
-      S4 = B21 - B11
+      // S4 = B21 - B11
       int[][] s4 = subMatrices(B, mid, 0, B, 0, 0, n);
-      s5 = A11 + A22
+      // s5 = A11 + A22
       int[][] s5 = addMatrices(A, 0, 0, A, mid, mid, n);
-      s6 = B11 + B22
+      // s6 = B11 + B22
       int[][] s6 = addMatrices(B, 0, 0, B, mid, mid, n);
-      s7 = A12 - A22
+      // s7 = A12 - A22
       int[][] s7 = subMatrices(A, 0, mid, A, mid, mid, n);
-      s8 = B21 + B22
+      // s8 = B21 + B22
       int[][] s8 = addMatrices(B, mid, 0, B, mid, mid, n);
-      s9 = A11 - A21
+      // s9 = A11 - A21
       int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, n);
-      s10 = B11 + B12
+      // s10 = B11 + B12
       int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
+   }
 
+   private int[][] strassenP(int[][]A, int[][] B, int n) {
+      p1 = A11 * S1
+      p2 = s2 * B22
+      p3 = s3 * B11
+      p4 = A22 * s4
+      p5 = s5 * s6
+      p6 = s7 * s8
+      p7 = s9 * s10
+   }
+
+   private int[][] strassenC(int[][] A, int[][] B, int n) {
+      C11 = p5 + p4 - p2 + p6
+      C12 = p1 + p2
+      C21 = p3 + p4
+      C22 = p5 + p1 - p3 - p7
    }
 
    private int[][] subMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
