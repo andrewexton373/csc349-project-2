@@ -1,11 +1,71 @@
 public class TestMatrixProduct {
     public static void main(String args[]) {
         testAddMatricesSimple();
-        testAddMatricesQuadrant();
+        testAddMatricesUnitQuadrant();
+        testAddMatrices();
+
         testSubMatricesSimple();
+
+        testMatrixProduct_DAC();
     }
 
-    public static void testAddMatricesQuadrant() {
+    public static void testMatrixProduct_DAC() {
+        int[][] A = { 
+            { 1, 0 },
+            { 0, 1 }
+        };
+
+        int[][] B = { 
+            { 1, 0 },
+            { 0, 1 }
+        };
+
+        int[][] expected = {
+            { 1, 0 },
+            { 0, 1 }
+        };
+
+        int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
+
+        // printMatrix(result);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST MULT MATRIX UNIT MATRICES: " + (passed ? "PASSED" : "FAILED"));
+    }
+
+    public static void testAddMatrices() {
+
+        int[][] A = {
+            { 1, 2, 3, 4 },
+            { 5, 6, 7, 8 },
+            { 9, 10, 11, 12 },
+            { 13, 14, 15, 16 }
+        };
+
+        int[][] B = {
+            { 16, 15, 14, 13 },            
+            { 12, 11, 10, 9 },
+            { 8, 7, 6, 5 },
+            { 4, 3, 2, 1 } 
+        };
+
+        int[][] expected = {
+            { 17, 17, 17, 17 },
+            { 17, 17, 17, 17 },
+            { 17, 17, 17, 17 },
+            { 17, 17, 17, 17 }
+        };
+
+        int[][] result = MatrixProduct.addMatrices(A, 0, 0, B, 0, 0, A.length);
+
+        // printMatrix(C);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST ADD MATRIX: " + (passed ? "PASSED" : "FAILED"));
+
+    }
+
+    public static void testAddMatricesUnitQuadrant() {
 
         boolean passed = true;
         int[][] A = {{1, 2},{3, 4}};
@@ -98,8 +158,18 @@ public class TestMatrixProduct {
             }
         }
 
-        System.out.println("TEST SUB MATRIX SUMPLE: " + (passed ? "PASSED" : "FAILED"));
+        System.out.println("TEST SUB MATRIX SIMPLE: " + (passed ? "PASSED" : "FAILED"));
 
+    }
+
+    public static boolean matrixEquality(int[][] A, int[][] B) {
+        boolean areEqual = true;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[0].length; j++) {
+                if (A[i][j] != B[i][j]) areEqual = false;
+            }
+        }
+        return areEqual;
     }
 
     public static void printMatrix(int[][] matrix) {

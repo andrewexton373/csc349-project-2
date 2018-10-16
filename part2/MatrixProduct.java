@@ -9,8 +9,7 @@ public class MatrixProduct {
 
     //Compute and return the product of A, B matrices using “simple” DAC algorithm presented in class.
    public static int[][] matrixProduct_DAC (int[][] A, int[][] B) throws IllegalArgumentException {
-      if (validityCheck(A, B)) throw new IllegalArgumentException();
-
+      if (!validityCheck(A, B)) throw new IllegalArgumentException();
       return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
 
@@ -21,15 +20,25 @@ public class MatrixProduct {
       else {
          int midpoint = n/2;
          // C11 = A11 * B11 + A12 * B21
-         int[][] c11 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , 0, midpoint), midpoint);
+         int[][] C11 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , 0, midpoint), midpoint);
          // C12 = A11 * B12 + A12 * B22
-         int[][] c12 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , midpoint , midpoint), midpoint);
+         int[][] C12 = addMatrices(matrixProductRecurrsive(A, 0, 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, 0, midpoint , B, midpoint , midpoint , midpoint), midpoint);
          // C21 = A21 * B21 + A22 * B21
-         int[][] c21 = addMatrices(matrixProductRecurrsive(A, 0, midpoint , B, 0, 0, midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , 0, midpoint), midpoint);
+         int[][] C21 = addMatrices(matrixProductRecurrsive(A, 0, midpoint , B, 0, 0, midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , 0, midpoint), midpoint);
          // C22 = A21 * B22 + A22 * B22
-         int[][] c22 = addMatrices(matrixProductRecurrsive(A, midpoint , 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , midpoint , midpoint), midpoint);
-      }
-      return C;
+         int[][] C22 = addMatrices(matrixProductRecurrsive(A, midpoint , 0, B, 0, midpoint , midpoint), matrixProductRecurrsive(A, midpoint , midpoint , B, midpoint , midpoint , midpoint), midpoint);
+      
+        for (int i = 0; i < midpoint; i++) {
+            for (int j = 0; j < midpoint; j++) {
+                C[i][j] = C11[i][j];
+                C[i + midpoint][j] = C21[i][j];
+                C[i][j + midpoint] = C12[i][j];
+                C[i + midpoint][j + midpoint] = C22[i][j];
+            }
+        }
+    } 
+
+    return C;
    }
 
    public static int[][] addMatrices(int [][] A, int[][] B, int n) {
@@ -46,8 +55,12 @@ public class MatrixProduct {
       return true;
    }
    public static boolean isSquare(int n) {
-      double sqrt = Math.sqrt(n);
-      return ((sqrt - Math.floor(sqrt)) == 0);
+        for (int i = 0; i < n / 2 + 2; i++) {
+            if (i * i == n) {
+                return true;
+            }
+        }
+        return false;
    }
 
     //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
