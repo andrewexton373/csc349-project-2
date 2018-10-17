@@ -5,11 +5,13 @@
     ALGORITHMS - Project 2 Part 2
 */
 
+import java.lang.Math;
+
 public class MatrixProduct {
 
     //Compute and return the product of A, B matrices using “simple” DAC algorithm presented in class.
    public static int[][] matrixProduct_DAC (int[][] A, int[][] B) throws IllegalArgumentException {
-        System.out.println("CHECK: " +validityCheck(A, B));
+        System.out.println("CHECK: " + validityCheck(A, B));
       if (!validityCheck(A, B)) throw new IllegalArgumentException();
       return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
@@ -44,6 +46,11 @@ public class MatrixProduct {
             matrixProductRecurrsive(A, midpoint, 0, B, midpoint, midpoint, midpoint),
             matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
             midpoint);
+
+            // TestMatrixProduct.printMatrix(C11);
+            // TestMatrixProduct.printMatrix(C12);
+            // TestMatrixProduct.printMatrix(C21);
+            // TestMatrixProduct.printMatrix(C22);
       
         C = constructMatrixFromQuadrants(C11, C12, C21, C22);
 
@@ -102,16 +109,15 @@ public class MatrixProduct {
    }
 
     private static boolean validityCheck(int[][] A, int[][] B) {
-        // System.out.println(A.length);
+        System.out.println(A.length);
 
-        // System.out.println(A.length == B.length);
-        // System.out.println(A[0].length == B[0].length);
-        // System.out.println(A.length == A[0].length);
-        // System.out.println(isSquare(A.length));
-        // System.out.println(A.length % 2 == 0);
+        System.out.println(A.length == B.length);
+        System.out.println(A[0].length == B[0].length);
+        System.out.println(A.length == A[0].length);
+        System.out.println(isPow2(A.length));
+        System.out.println(A.length % 2 == 0);
 
-        if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isSquare(A.length)
-                && A.length % 2 == 0) {
+        if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isPow2(A.length)) {
             return true; // is Valid
         } else {
             return false; // is inValid
@@ -161,15 +167,15 @@ public class MatrixProduct {
         return negatedMatrix;
     }
 
-    public static boolean isSquare(int n) {
-        if (n == 1 || n == 2)
-            return true; // base cases?
-        for (int i = 0; i < n / 2 + 2; i++) {
-            if (i * i == n) {
-                return true;
-            }
+    public static boolean isPow2(int n) {
+        if (n == 0) return false;
+        
+        while (n != 1) {
+            if (n % 2 != 0) return false;
+            n = n / 2;
         }
-        return false;
+        
+        return true;
     }
 
 }

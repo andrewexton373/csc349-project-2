@@ -64,7 +64,7 @@ public class TestMatrixProduct {
         printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
-        System.out.println("TEST MULT MATRIX UNIT MATRICES: " + (passed ? "PASSED" : "FAILED"));
+        System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
     }
 
     public static void testConstructMatrixFromQuadrants() {
