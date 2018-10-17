@@ -52,17 +52,6 @@ public class MatrixProduct {
     return C;
    }
 
-    //Compute and return the product of A, B matrixes using Strassen’s algorithm presented in class.
-   public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
-      if (validityCheck(A, B)) throw new IllegalArgumentException();
-      int n = A.length;
-      int[][] C =  new int[n][n];
-
-      strassenS(A, B, n);
-      strassenP();
-      strassenC();
-   }
-
  public static int[][] constructMatrixFromQuadrants(int[][] Q11, int[][] Q12, int[][] Q21, int[][] Q22) {
      int quadN = Q11.length;
      int[][] result  = new int[quadN*2][quadN*2];
@@ -82,10 +71,13 @@ public class MatrixProduct {
    public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
       if (!validityCheck(A, B)) throw new IllegalArgumentException();
       int[][] C = strassenAdds(A, B, A.length);
+
+      // strassenP();
+      // strassenC();
       return C;
    }
 
-   private int[][] strassenS(int[][] A, int[][] B, int n) {
+   private static int[][] strassenAdds(int[][] A, int[][] B, int n) {
       int mid = A.length/2;
       // s1 = B12 - B22
       int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, n);
@@ -106,25 +98,37 @@ public class MatrixProduct {
       // s9 = A11 - A21
       int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, n);
       // s10 = B11 + B12
-
       int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
+
+      return s1;
    }
 
    private int[][] strassenP(int[][]A, int[][] B, int n) {
-      // p1 = A11 * S1
-      // p2 = s2 * B22
-      // p3 = s3 * B11
-      // p4 = A22 * s4
-      // p5 = s5 * s6
-      // p6 = s7 * s8
-      // p7 = s9 * s10
+      int[][] C = new int[n][n];
+      // // p1 = A11 * S1
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p2 = s2 * B22
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p3 = s3 * B11
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p4 = A22 * s4
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p5 = s5 * s6
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p6 = s7 * s8
+      // int[][] p1 = matrixProduct_Strassen();
+      // // p7 = s9 * s10
+      // int[][] p1 = matrixProduct_Strassen();
+      return C;
    }
 
    private int[][] strassenC(int[][] A, int[][] B, int n) {
+      int[][] C = new int[n][n];
       // C11 = p5 + p4 - p2 + p6
       // C12 = p1 + p2
       // C21 = p3 + p4
       // C22 = p5 + p1 - p3 - p7
+      return C;
    }
 
     private static boolean validityCheck(int[][] A, int[][] B) {
