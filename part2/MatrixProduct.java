@@ -134,13 +134,13 @@ public class MatrixProduct {
    }
 
     private static boolean validityCheck(int[][] A, int[][] B) {
-        System.out.println(A.length);
+        // System.out.println(A.length);
 
-        System.out.println(A.length == B.length);
-        System.out.println(A[0].length == B[0].length);
-        System.out.println(A.length == A[0].length);
-        System.out.println(isPow2(A.length));
-        System.out.println(A.length % 2 == 0);
+        // System.out.println(A.length == B.length);
+        // System.out.println(A[0].length == B[0].length);
+        // System.out.println(A.length == A[0].length);
+        // System.out.println(isPow2(A.length));
+        // System.out.println(A.length % 2 == 0);
 
         if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isPow2(A.length)) {
             return true; // is Valid

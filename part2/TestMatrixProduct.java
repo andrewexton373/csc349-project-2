@@ -3,6 +3,7 @@ public class TestMatrixProduct {
         testAddMatricesSimple();
         testAddMatricesUnitQuadrant();
         testAddMatrices();
+        testAddMatrices2();
 
         testSubMatricesSimple();
 
@@ -61,7 +62,7 @@ public class TestMatrixProduct {
 
         int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
 
-        printMatrix(result);
+        // printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -135,6 +136,27 @@ public class TestMatrixProduct {
 
     }
 
+    public static void testAddMatrices2() {
+
+        int[][] A = { { 1, 1, 2, 2 },
+                      { 1, 1, 2, 2 },
+                      { 3, 3, 4, 4 },
+                      { 3, 3, 4, 4 } };
+
+        int[][] expected = { { 5, 5 },
+                             { 5, 5} };
+
+        int mid = A.length/2;
+
+        int[][] result = MatrixProduct.addMatrices(A, 0, 0, A, mid, mid, A.length/2);
+
+        // printMatrix(result);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST ADD MATRIX 2: " + (passed ? "PASSED" : "FAILED"));
+
+    }
+
     public static void testAddMatricesUnitQuadrant() {
 
         boolean passed = true;
@@ -162,6 +184,8 @@ public class TestMatrixProduct {
     // public static int[][] addMatrices(
         // int [][] A, int startRowA, int startColA,
         // int[][] B, int startRowB, int startColB, int n)
+
+        
 
     public static void testAddMatricesSimple() {
 
