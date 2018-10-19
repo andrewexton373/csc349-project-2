@@ -110,7 +110,7 @@ public class MatrixProduct {
             int b = B[startRowB][startColB];
             C[0][0] = a * b;
         } else {
-            int mid = A.length / 2;
+            int mid = n / 2;
             System.out.println(mid);
             // s1 = B12 - B22
             int[][] s1 = subMatrices(B, startRowB, startColB + mid, B, startRowB + mid, startColB + mid, mid);            

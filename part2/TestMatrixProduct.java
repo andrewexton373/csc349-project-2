@@ -23,9 +23,9 @@ public class TestMatrixProduct {
 
         testMatrixProduct_Strassen_Single();
         testMatrixProduct_Strassen_UnitMats();
-        // testMatrixProduct_Strassen_UnitMats2();
-        // testMatrixProduct_Strassen2();
-        // testMatrixProduct_Strassen();
+        testMatrixProduct_Strassen_UnitMats2();
+        testMatrixProduct_Strassen2();
+        testMatrixProduct_Strassen();
 
     }
 
