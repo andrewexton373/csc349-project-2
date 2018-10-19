@@ -17,17 +17,36 @@ public class MatrixProduct {
    }
 
    private static int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] C = new int[A.length][A.length];
-      if (n == 1)
-         C[0][0] = A[startRowA][startColA] * B[startRowB][startColB]; // C has 1 element
+      int[][] C = new int[n][n];
+      if (n == 1) {
+            int a = A[startRowA][startColA];
+            int b = B[startRowB][startColB];
+            C[0][0] = a * b;
+            // System.out.println("SINGLE VAL A: " + a);
+            // System.out.println("SINGLE VAL B: " + b);
+      }
       else {
          int midpoint = n/2;
 
+        //  System.out.println("A: " + startRowA + " " + startColA);
+        //  TestMatrixProduct.printMatrix(A);
+
+        //  System.out.println("B: " + startRowB + " " + startColB);
+        //  TestMatrixProduct.printMatrix(B);
+
+         System.out.println("MID: " + midpoint);
+
+        int[][] P1 = matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint);
+        int[][] P2 = matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint);
+
+        // TestMatrixProduct.printMatrix(P1);
+        // TestMatrixProduct.printMatrix(P2);
+
          // C11 = A11 * B11 + A12 * B21
-         int[][] C11 = addMatrices(
-            matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint),
-            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint),
-            midpoint);
+         int[][] C11 = addMatrices(P1, P2, midpoint);
+
+        //  System.out.println("C11: ");
+        // TestMatrixProduct.printMatrix(C11);
 
          // C12 = A11 * B12 + A12 * B22
          int[][] C12 = addMatrices(
@@ -35,15 +54,15 @@ public class MatrixProduct {
             matrixProductRecurrsive(A, 0, midpoint, B, midpoint, midpoint, midpoint),
             midpoint);
 
-         // C21 = A21 * B21 + A22 * B21
+         // C21 = A21 * B11 + A22 * B21
          int[][] C21 = addMatrices(
-            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, 0, midpoint),
+            matrixProductRecurrsive(A, midpoint, 0, B, 0, 0, midpoint),
             matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, 0, midpoint),
             midpoint);
 
-         // C22 = A21 * B22 + A22 * B22
+         // C22 = A21 * B12 + A22 * B22
          int[][] C22 = addMatrices(
-            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, midpoint, midpoint),
+            matrixProductRecurrsive(A, midpoint, 0, B, 0, midpoint, midpoint),
             matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
             midpoint);
 

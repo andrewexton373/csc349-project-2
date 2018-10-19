@@ -11,6 +11,7 @@ public class TestMatrixProduct {
 
         testMatrixProduct_DAC_Single();
         testMatrixProduct_DAC_UnitMats();
+        testMatrixProduct_DAC2();
         testMatrixProduct_DAC();
 
     }
@@ -55,6 +56,24 @@ public class TestMatrixProduct {
     }
 
     public static void testMatrixProduct_DAC() {
+        int[][] A = { { 1, 2 },
+                      { 3, 4 } };
+
+        int[][] B = { { 5, 6 },
+                      { 7, 8 } };
+
+        int[][] expected = { { 19, 22 },
+                             { 43, 50 } };
+
+        int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
+
+        printMatrix(result);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
+    }
+
+    public static void testMatrixProduct_DAC2() {
         int[][] A = { 
             { 1, 2, 3, 4 },
             { 5, 6, 7, 8 },
