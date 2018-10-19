@@ -9,9 +9,25 @@ public class TestMatrixProduct {
 
         testConstructMatrixFromQuadrants();
 
+        testMatrixProduct_DAC_Single();
         testMatrixProduct_DAC_UnitMats();
         testMatrixProduct_DAC();
 
+    }
+
+    public static void testMatrixProduct_DAC_Single() {
+        int[][] A = { { 4 } };
+
+        int[][] B = { { 20 } };
+
+        int[][] expected = { { 80 } };
+
+        int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
+
+        // printMatrix(result);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST MULT MATRIX SINGLE VAL MATRICES: " + (passed ? "PASSED" : "FAILED"));
     }
 
     public static void testMatrixProduct_DAC_UnitMats() {
