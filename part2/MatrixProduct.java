@@ -5,21 +5,42 @@
     ALGORITHMS - Project 2 Part 2
 */
 
+import java.lang.Math;
+
 public class MatrixProduct {
 
     //Compute and return the product of A, B matrices using “simple” DAC algorithm presented in class.
    public static int[][] matrixProduct_DAC (int[][] A, int[][] B) throws IllegalArgumentException {
-        System.out.println("CHECK: " +validityCheck(A, B));
+        System.out.println("CHECK: " + validityCheck(A, B));
       if (!validityCheck(A, B)) throw new IllegalArgumentException();
       return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
    }
 
    private static int[][] matrixProductRecurrsive(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
-      int[][] C = new int[A.length][A.length];
-      if (n == 1)
-         C[0][0] = A[startRowA][startColA] * B[startRowB][startColB]; // C has 1 element
+      int[][] C = new int[n][n];
+      if (n == 1) {
+            int a = A[startRowA][startColA];
+            int b = B[startRowB][startColB];
+            C[0][0] = a * b;
+            // System.out.println("SINGLE VAL A: " + a);
+            // System.out.println("SINGLE VAL B: " + b);
+      }
       else {
          int midpoint = n/2;
+
+        //  System.out.println("A: " + startRowA + " " + startColA);
+        //  TestMatrixProduct.printMatrix(A);
+
+        //  System.out.println("B: " + startRowB + " " + startColB);
+        //  TestMatrixProduct.printMatrix(B);
+
+         System.out.println("MID: " + midpoint);
+
+        int[][] P1 = matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint);
+        int[][] P2 = matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint);
+
+        // TestMatrixProduct.printMatrix(P1);
+        // TestMatrixProduct.printMatrix(P2);
 
          // C11 = A11 * B11 + A12 * B21
          int[][] C11 = addMatrices(
@@ -33,13 +54,13 @@ public class MatrixProduct {
             matrixProductRecurrsive(A, startRowA, startColA + midpoint, B, startRowB + midpoint, startColB + midpoint, midpoint),
             midpoint);
 
-         // C21 = A21 * B21 + A22 * B21
+         // C21 = A21 * B11 + A22 * B21
          int[][] C21 = addMatrices(
             matrixProductRecurrsive(A, startRowA + midpoint, startColA, B, startRowB, startColB, midpoint),
             matrixProductRecurrsive(A, startRowA+ midpoint, startColA + midpoint, B, startRowB + midpoint, startColB, midpoint),
             midpoint);
 
-         // C22 = A21 * B22 + A22 * B22
+         // C22 = A21 * B12 + A22 * B22
          int[][] C22 = addMatrices(
             matrixProductRecurrsive(A, startRowA + midpoint, startColA, B, startRowB, startColB + midpoint, midpoint),
             matrixProductRecurrsive(A, startRowA + midpoint, startColA + midpoint, B, startRowB + midpoint, startColB + midpoint, midpoint),
@@ -190,16 +211,15 @@ public class MatrixProduct {
         return negatedMatrix;
     }
 
-   public static boolean isPow2(int n) {
-      if (n == 0)
-         return false;
-      while (n != 1)
-      {
-         if (n % 2 != 0)
-            return false;
-         n = n / 2;
-     }
-     return true;
-   }
+    public static boolean isPow2(int n) {
+        if (n == 0) return false;
+
+        while (n != 1) {
+            if (n % 2 != 0) return false;
+            n = n / 2;
+        }
+
+        return true;
+    }
 
 }
