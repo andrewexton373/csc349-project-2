@@ -21,15 +21,49 @@ public class TestMatrixProduct {
 
         System.out.println("-----STRAEESN-----");
 
+        testStrassenC11();
+        testStrassenC22();
         testMatrixProduct_Strassen_Single();
         testMatrixProduct_Strassen_UnitMats();
         testMatrixProduct_Strassen_UnitMats2();
         testMatrixProduct_Strassen();
-        // testMatrixProduct_Strassen2();
+        testMatrixProduct_Strassen2();
 
     }
 
     // STRASSEN
+
+    public static void testStrassenC22() {
+        int[][] p1 = new int[][] { { 1, 2 }, {3, 4} };
+        int[][] p3 = new int[][] { { 5, 6 }, { 7, 8 } };
+        int[][] p5 = new int[][] { { 9, 10 }, { 11, 12 } };
+        int[][] p7 = new int[][] { { 13, 14 }, { 15, 16 } };
+
+        int mid = p1.length/2;
+
+        int[][] expected = { { -8, -8 }, { -8, -8 } };
+
+        int[][] result = MatrixProduct.strassenCalcC22(p1, p3, p5, p7, mid);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST C22 CALC: " + (passed ? "PASSED" : "FAILED"));
+    }
+
+    public static void testStrassenC11() {
+        int[][] p2 = new int[][] { { 1, 2 }, { 3, 4 } };
+        int[][] p4 = new int[][] { { 5, 6 }, { 7, 8 } };
+        int[][] p5 = new int[][] { { 9, 10 }, { 11, 12 } };
+        int[][] p6 = new int[][] { { 13, 14 }, { 15, 16 } };
+
+        int mid = p2.length / 2;
+
+        int[][] expected = { { 26, 28 }, { 30, 36 } };
+
+        int[][] result = MatrixProduct.strassenCalcC11(p2, p4, p5, p6, mid);
+
+        boolean passed = matrixEquality(result, expected);
+        System.out.println("TEST C11 CALC: " + (passed ? "PASSED" : "FAILED"));
+    }
 
     public static void testMatrixProduct_Strassen_Single() {
         int[][] A = { { 4 } };

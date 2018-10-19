@@ -171,21 +171,21 @@ public class MatrixProduct {
         return C;
     }
 
-    private static int[][] strassenCalcC11(int[][] p2, int[][] p4, int[][] p5, int[][] p6, int mid) {
+    public static int[][] strassenCalcC11(int[][] p2, int[][] p4, int[][] p5, int[][] p6, int mid) {
         int[][] c111 = addMatrices(p5, p4, mid);
         int[][] c112 = subMatrices(c111, p2, mid);
         int[][] c113 = addMatrices(c112, p6, mid);
         return c113;
     }
 
-    private static int[][] strassenCalcC22(int[][] p1, int[][] p3, int[][] p5, int[][] p7, int mid) {
+    public static int[][] strassenCalcC22(int[][] p1, int[][] p3, int[][] p5, int[][] p7, int mid) {
         int[][] c221 = addMatrices(p5, p1, mid);
         int[][] c222 = subMatrices(c221, p3, mid);
         int[][] c223 = subMatrices(c222, p7, mid);
         return c223;
     }
 
-    private static int[][] strassenAdds(int[][] A, int[][] B, int n) {
+    public static int[][] strassenAdds(int[][] A, int[][] B, int n) {
         int mid = A.length / 2;
         // s1 = B12 - B22
         int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, mid);
