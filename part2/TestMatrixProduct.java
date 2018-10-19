@@ -23,13 +23,13 @@ public class TestMatrixProduct {
 
         testMatrixProduct_Strassen_Single();
         testMatrixProduct_Strassen_UnitMats();
-        testMatrixProduct_Strassen_UnitMats2();
-        testMatrixProduct_Strassen2();
-        testMatrixProduct_Strassen();
+        // testMatrixProduct_Strassen_UnitMats2();
+        // testMatrixProduct_Strassen2();
+        // testMatrixProduct_Strassen();
 
     }
 
-    // DAC
+    // STRASSEN
 
     public static void testMatrixProduct_Strassen_Single() {
         int[][] A = { { 4 } };
@@ -47,7 +47,11 @@ public class TestMatrixProduct {
     public static void testMatrixProduct_Strassen_UnitMats() {
         int[][] A = { { 1, 0 }, { 0, 1 } };
 
+        printMatrix(A);
+
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, A);
+
+        printMatrix(result);
 
         boolean passed = matrixEquality(result, A);
         System.out.println("TEST MULT MATRIX UNIT MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -96,7 +100,7 @@ public class TestMatrixProduct {
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
     }
 
-    // STRASSEN
+    // DAC
 
     public static void testMatrixProduct_DAC_Single() {
         int[][] A = { { 4 } };
