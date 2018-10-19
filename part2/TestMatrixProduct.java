@@ -13,11 +13,11 @@ public class TestMatrixProduct {
 
         System.out.println("-----DAC-----");
 
-        // testMatrixProduct_DAC_Single();
-        // testMatrixProduct_DAC_UnitMats();
-        // testMatrixProduct_DAC_UnitMats2();
-        // testMatrixProduct_DAC2();
-        // testMatrixProduct_DAC();
+        testMatrixProduct_DAC_Single();
+        testMatrixProduct_DAC_UnitMats();
+        testMatrixProduct_DAC_UnitMats2();
+        testMatrixProduct_DAC2();
+        testMatrixProduct_DAC();
 
         System.out.println("-----STRAEESN-----");
 

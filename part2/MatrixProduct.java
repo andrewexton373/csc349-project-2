@@ -171,7 +171,7 @@ public class MatrixProduct {
 
             int[][] c221 = addMatrices(p5, p1, mid);
             int[][] c222 = subMatrices(c221, p3, mid);
-            int[][] c223 = addMatrices(c222, p7, mid);
+            int[][] c223 = subMatrices(c222, p7, mid);
             int[][] C22 = c223;
 
             C = constructMatrixFromQuadrants(C11, C12, C21, C22);
