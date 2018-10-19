@@ -133,17 +133,17 @@ public class MatrixProduct {
             // s10 = B11 + B12
             int[][] s10 = addMatrices(B, startRowB, startColB, B, startRowB, startColB + mid, mid);
 
-            System.out.println("Ss");
-            TestMatrixProduct.printMatrix(s1);
-            TestMatrixProduct.printMatrix(s2);
-            TestMatrixProduct.printMatrix(s3);
-            TestMatrixProduct.printMatrix(s4);
-            TestMatrixProduct.printMatrix(s5);
-            TestMatrixProduct.printMatrix(s6);
-            TestMatrixProduct.printMatrix(s7);
-            TestMatrixProduct.printMatrix(s8);           
-            TestMatrixProduct.printMatrix(s9);
-            TestMatrixProduct.printMatrix(s10);
+            // System.out.println("Ss");
+            // TestMatrixProduct.printMatrix(s1);
+            // TestMatrixProduct.printMatrix(s2);
+            // TestMatrixProduct.printMatrix(s3);
+            // TestMatrixProduct.printMatrix(s4);
+            // TestMatrixProduct.printMatrix(s5);
+            // TestMatrixProduct.printMatrix(s6);
+            // TestMatrixProduct.printMatrix(s7);
+            // TestMatrixProduct.printMatrix(s8);           
+            // TestMatrixProduct.printMatrix(s9);
+            // TestMatrixProduct.printMatrix(s10);
 
             // p1 = A11 * S1
             int[][] p1 = strassenSP(A, startRowA, startColA, s1, 0, 0, mid);

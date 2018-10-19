@@ -24,8 +24,8 @@ public class TestMatrixProduct {
         testMatrixProduct_Strassen_Single();
         testMatrixProduct_Strassen_UnitMats();
         testMatrixProduct_Strassen_UnitMats2();
-        testMatrixProduct_Strassen2();
         testMatrixProduct_Strassen();
+        // testMatrixProduct_Strassen2();
 
     }
 
@@ -77,7 +77,9 @@ public class TestMatrixProduct {
 
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, B);
 
+        printMatrix(expected);
         printMatrix(result);
+
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
