@@ -45,8 +45,8 @@ public class MatrixProduct {
          // C11 = A11 * B11 + A12 * B21
          int[][] C11 = addMatrices(P1, P2, midpoint);
 
-        //  System.out.println("C11: ");
-        // TestMatrixProduct.printMatrix(C11);
+         System.out.println("C11: ");
+        TestMatrixProduct.printMatrix(C11);
 
          // C12 = A11 * B12 + A12 * B22
          int[][] C12 = addMatrices(
@@ -54,17 +54,26 @@ public class MatrixProduct {
             matrixProductRecurrsive(A, 0, midpoint, B, midpoint, midpoint, midpoint),
             midpoint);
 
+            System.out.println("C12: ");
+            TestMatrixProduct.printMatrix(C12);
+
          // C21 = A21 * B11 + A22 * B21
          int[][] C21 = addMatrices(
             matrixProductRecurrsive(A, midpoint, 0, B, 0, 0, midpoint),
             matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, 0, midpoint),
             midpoint);
 
+            System.out.println("C21: ");
+            TestMatrixProduct.printMatrix(C21);
+
          // C22 = A21 * B12 + A22 * B22
          int[][] C22 = addMatrices(
             matrixProductRecurrsive(A, midpoint, 0, B, 0, midpoint, midpoint),
             matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
             midpoint);
+
+            System.out.println("C22: ");
+            TestMatrixProduct.printMatrix(C22);
 
         C = constructMatrixFromQuadrants(C11, C12, C21, C22);
 
@@ -177,18 +186,19 @@ public class MatrixProduct {
    public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
         int[][] result = new int[n][n];
         int colA, colB, rowA, rowB;
-        colA = startColA;
-        colB = startColB;
+        rowA = startRowA;
+        rowB = startRowB;
+        
         for (int i = 0; i < n; i++) {
-                rowA = startRowA;
-                rowB = startRowB;
+                colA = startColA;
+                colB = startColB;
                 for (int j = 0; j < n; j++) {
                     result[i][j] = A[colA][rowA] + B[colB][rowB];
-                    rowA++;
-                    rowB++;
+                    colA++;
+                    colB++;
                 }
-                colA++;
-                colB++;
+                rowA++;
+                rowB++;  
         }
         return result;
    }
