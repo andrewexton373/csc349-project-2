@@ -12,7 +12,6 @@ public class MatrixProduct {
     // Compute and return the product of A, B matrices using “simple” DAC algorithm
     // presented in class.
     public static int[][] matrixProduct_DAC(int[][] A, int[][] B) throws IllegalArgumentException {
-        System.out.println("CHECK: " + validityCheck(A, B));
         if (!validityCheck(A, B))
             throw new IllegalArgumentException();
         return matrixProductRecurrsive(A, 0, 0, B, 0, 0, A.length);
@@ -28,8 +27,6 @@ public class MatrixProduct {
         } else {
             int midpoint = n / 2;
 
-            System.out.println("MID: " + midpoint);
-
             // C11 = A11 * B11 + A12 * B21
             int[][] C11 = addMatrices(
                     matrixProductRecurrsive(A, startRowA, startColA, B, startRowB, startColB, midpoint),
@@ -44,18 +41,12 @@ public class MatrixProduct {
                             startColB + midpoint, midpoint),
                     midpoint);
 
-            System.out.println("C12: ");
-            TestMatrixProduct.printMatrix(C12);
-
             // C21 = A21 * B11 + A22 * B21
             int[][] C21 = addMatrices(
                     matrixProductRecurrsive(A, startRowA + midpoint, startColA, B, startRowB, startColB, midpoint),
                     matrixProductRecurrsive(A, startRowA + midpoint, startColA + midpoint, B, startRowB + midpoint,
                             startColB, midpoint),
                     midpoint);
-
-            System.out.println("C21: ");
-            TestMatrixProduct.printMatrix(C21);
 
             // C22 = A21 * B12 + A22 * B22
             int[][] C22 = addMatrices(
@@ -64,9 +55,6 @@ public class MatrixProduct {
                     matrixProductRecurrsive(A, startRowA + midpoint, startColA + midpoint, B, startRowB + midpoint,
                             startColB + midpoint, midpoint),
                     midpoint);
-
-            System.out.println("C22: ");
-            TestMatrixProduct.printMatrix(C22);
 
             C = constructMatrixFromQuadrants(C11, C12, C21, C22);
 
@@ -94,24 +82,19 @@ public class MatrixProduct {
     public static int[][] matrixProduct_Strassen(int[][] A, int[][] B) throws IllegalArgumentException {
         if (!validityCheck(A, B))
             throw new IllegalArgumentException();
-        // int[][] C = strassenAdds(A, B, A.length);
-        System.out.println("N:" + A.length);
         int[][] C = strassenSP(A, 0, 0, B, 0, 0, A.length);
-
-        // strassenP();
-        // strassenC();
         return C;
     }
 
     private static int[][] strassenSP(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
         int[][] C = new int[n][n];
         if (n == 1) {
-            int a = A[startRowA][startColA];
-            int b = B[startRowB][startColB];
+            int a = A[startColA][startRowA];
+            int b = B[startColB][startRowB];
             C[0][0] = a * b;
         } else {
             int mid = n / 2;
-            System.out.println(mid);
+            
             // s1 = B12 - B22
             int[][] s1 = subMatrices(B, startRowB, startColB + mid, B, startRowB + mid, startColB + mid, mid);            
             // s2 = A11 + A12
@@ -132,18 +115,6 @@ public class MatrixProduct {
             int[][] s9 = subMatrices(A, startRowA, startColA, A, startRowA + mid, startColA, mid);
             // s10 = B11 + B12
             int[][] s10 = addMatrices(B, startRowB, startColB, B, startRowB, startColB + mid, mid);
-
-            // System.out.println("Ss");
-            // TestMatrixProduct.printMatrix(s1);
-            // TestMatrixProduct.printMatrix(s2);
-            // TestMatrixProduct.printMatrix(s3);
-            // TestMatrixProduct.printMatrix(s4);
-            // TestMatrixProduct.printMatrix(s5);
-            // TestMatrixProduct.printMatrix(s6);
-            // TestMatrixProduct.printMatrix(s7);
-            // TestMatrixProduct.printMatrix(s8);           
-            // TestMatrixProduct.printMatrix(s9);
-            // TestMatrixProduct.printMatrix(s10);
 
             // p1 = A11 * S1
             int[][] p1 = strassenSP(A, startRowA, startColA, s1, 0, 0, mid);
@@ -211,34 +182,6 @@ public class MatrixProduct {
         return s1;
     }
 
-    private int[][] strassenP(int[][] A, int[][] B, int n) {
-        int[][] C = new int[n][n];
-        // // p1 = A11 * S1
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p2 = s2 * B22
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p3 = s3 * B11
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p4 = A22 * s4
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p5 = s5 * s6
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p6 = s7 * s8
-        // int[][] p1 = matrixProduct_Strassen();
-        // // p7 = s9 * s10
-        // int[][] p1 = matrixProduct_Strassen();
-        return C;
-    }
-
-    private int[][] strassenC(int[][] A, int[][] B, int n) {
-        int[][] C = new int[n][n];
-        // C11 = p5 + p4 - p2 + p6
-        // C12 = p1 + p2
-        // C21 = p3 + p4
-        // C22 = p5 + p1 - p3 - p7
-        return C;
-    }
-
     private static boolean validityCheck(int[][] A, int[][] B) {
         if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isPow2(A.length)) {
             return true; // is Valid
@@ -256,22 +199,10 @@ public class MatrixProduct {
     public static int[][] addMatrices(int[][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB,
             int n) {
         int[][] result = new int[n][n];
-        int colA, colB, rowA, rowB;
-        colA = startColA;
-        colB = startColB;
-
         for (int i = 0; i < n; i++) {
-            rowA = startRowA;
-            rowB = startRowB;
-
             for (int j = 0; j < n; j++) {
-                result[i][j] = A[colA][rowA] + B[colB][rowB];
-                rowA++;
-                rowB++;
+                result[i][j] = A[startRowA + i][startColA + j] + B[startRowB + i ][startColB + j];
             }
-            colA++;
-            colB++;
-
         }
         return result;
     }

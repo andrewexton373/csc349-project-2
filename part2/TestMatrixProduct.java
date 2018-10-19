@@ -81,11 +81,7 @@ public class TestMatrixProduct {
     public static void testMatrixProduct_Strassen_UnitMats() {
         int[][] A = { { 1, 0 }, { 0, 1 } };
 
-        printMatrix(A);
-
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, A);
-
-        printMatrix(result);
 
         boolean passed = matrixEquality(result, A);
         System.out.println("TEST MULT MATRIX UNIT MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -95,8 +91,6 @@ public class TestMatrixProduct {
         int[][] A = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, A);
-
-        printMatrix(result);
 
         boolean passed = matrixEquality(result, A);
         System.out.println("TEST MULT MATRIX UNIT MATRICES 2: " + (passed ? "PASSED" : "FAILED"));
@@ -111,10 +105,6 @@ public class TestMatrixProduct {
 
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, B);
 
-        printMatrix(expected);
-        printMatrix(result);
-
-
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
     }
@@ -128,9 +118,6 @@ public class TestMatrixProduct {
                 { 560, 502, 444, 386 } };
 
         int[][] result = MatrixProduct.matrixProduct_Strassen(A, B);
-
-        printMatrix(expected);
-        printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -165,8 +152,6 @@ public class TestMatrixProduct {
 
         int[][] result = MatrixProduct.matrixProduct_DAC(A, A);
 
-        printMatrix(result);
-
         boolean passed = matrixEquality(result, A);
         System.out.println("TEST MULT MATRIX UNIT MATRICES 2: " + (passed ? "PASSED" : "FAILED"));
     }
@@ -179,8 +164,6 @@ public class TestMatrixProduct {
         int[][] expected = { { 19, 22 }, { 43, 50 } };
 
         int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
-
-        printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -195,9 +178,6 @@ public class TestMatrixProduct {
                 { 560, 502, 444, 386 } };
 
         int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
-
-        printMatrix(expected);
-        printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));
@@ -247,8 +227,6 @@ public class TestMatrixProduct {
         int mid = A.length / 2;
 
         int[][] result = MatrixProduct.addMatrices(A, 0, 0, A, mid, mid, A.length / 2);
-
-        // printMatrix(result);
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST ADD MATRIX 2: " + (passed ? "PASSED" : "FAILED"));
