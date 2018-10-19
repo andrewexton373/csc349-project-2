@@ -1,5 +1,7 @@
 public class TestMatrixProduct {
     public static void main(String args[]) {
+        System.out.println("-----SUPPORTING METHODS-----");
+        
         testAddMatricesSimple();
         testAddMatricesUnitQuadrant();
         testAddMatrices();
@@ -9,11 +11,15 @@ public class TestMatrixProduct {
 
         testConstructMatrixFromQuadrants();
 
-        testMatrixProduct_DAC_Single();
-        testMatrixProduct_DAC_UnitMats();
-        testMatrixProduct_DAC_UnitMats2();
-        testMatrixProduct_DAC2();
-        testMatrixProduct_DAC();
+        System.out.println("-----DAC-----");
+
+        // testMatrixProduct_DAC_Single();
+        // testMatrixProduct_DAC_UnitMats();
+        // testMatrixProduct_DAC_UnitMats2();
+        // testMatrixProduct_DAC2();
+        // testMatrixProduct_DAC();
+
+        System.out.println("-----STRAEESN-----");
 
         testMatrixProduct_Strassen_Single();
         testMatrixProduct_Strassen_UnitMats();

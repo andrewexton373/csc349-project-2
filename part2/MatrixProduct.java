@@ -162,7 +162,7 @@ public class MatrixProduct {
 
             C = constructMatrixFromQuadrants(C11, C12, C21, C22);
         }
-        
+
         return C;
     }
 
