@@ -104,25 +104,25 @@ public class MatrixProduct {
    private static int[][] strassenAdds(int[][] A, int[][] B, int n) {
       int mid = A.length/2;
       // s1 = B12 - B22
-      int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, n);
+      int[][] s1 = addMatrices(B, 0, mid, B, mid, mid, mid);
       // s2 = A11 + A12
-      int[][] s2 = addMatrices(A, 0, 0, B, 0, mid, n);
+      int[][] s2 = addMatrices(A, 0, 0, B, 0, mid, mid);
       // s3 = A21 + A22
-      int[][] s3 = addMatrices(A, mid, 0, A, mid, mid, n);
+      int[][] s3 = addMatrices(A, mid, 0, A, mid, mid, mid);
       // S4 = B21 - B11
-      int[][] s4 = subMatrices(B, mid, 0, B, 0, 0, n);
+      int[][] s4 = subMatrices(B, mid, 0, B, 0, 0, mid);
       // s5 = A11 + A22
-      int[][] s5 = addMatrices(A, 0, 0, A, mid, mid, n);
+      int[][] s5 = addMatrices(A, 0, 0, A, mid, mid, mid);
       // s6 = B11 + B22
-      int[][] s6 = addMatrices(B, 0, 0, B, mid, mid, n);
+      int[][] s6 = addMatrices(B, 0, 0, B, mid, mid, mid);
       // s7 = A12 - A22
-      int[][] s7 = subMatrices(A, 0, mid, A, mid, mid, n);
+      int[][] s7 = subMatrices(A, 0, mid, A, mid, mid, mid);
       // s8 = B21 + B22
-      int[][] s8 = addMatrices(B, mid, 0, B, mid, mid, n);
+      int[][] s8 = addMatrices(B, mid, 0, B, mid, mid, mid);
       // s9 = A11 - A21
-      int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, n);
+      int[][] s9 = subMatrices(A, 0, 0, A, mid, 0, mid);
       // s10 = B11 + B12
-      int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, n);
+      int[][] s10 = addMatrices(B, 0, 0, B, 0, mid, mid);
 
       return s1;
    }
@@ -180,19 +180,21 @@ public class MatrixProduct {
    public static int[][] addMatrices(int [][] A, int startRowA, int startColA, int[][] B, int startRowB, int startColB, int n) {
         int[][] result = new int[n][n];
         int colA, colB, rowA, rowB;
-        rowA = startRowA;
-        rowB = startRowB;
+        colA = startColA;
+        colB = startColB;
         
         for (int i = 0; i < n; i++) {
-                colA = startColA;
-                colB = startColB;
+            rowA = startRowA;
+            rowB = startRowB;
+                
                 for (int j = 0; j < n; j++) {
                     result[i][j] = A[colA][rowA] + B[colB][rowB];
-                    colA++;
-                    colB++;
+                    rowA++;
+                    rowB++;
                 }
-                rowA++;
-                rowB++;  
+                colA++;
+                colB++;
+                 
         }
         return result;
    }
