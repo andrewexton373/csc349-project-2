@@ -102,7 +102,9 @@ public class TestMatrixProduct {
 
         int[][] result = MatrixProduct.matrixProduct_DAC(A, B);
 
+        printMatrix(expected);
         printMatrix(result);
+
 
         boolean passed = matrixEquality(result, expected);
         System.out.println("TEST MULT MATRIX MATRICES: " + (passed ? "PASSED" : "FAILED"));

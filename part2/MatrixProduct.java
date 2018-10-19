@@ -36,12 +36,6 @@ public class MatrixProduct {
 
          System.out.println("MID: " + midpoint);
 
-        int[][] P1 = matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint);
-        int[][] P2 = matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint);
-
-        // TestMatrixProduct.printMatrix(P1);
-        // TestMatrixProduct.printMatrix(P2);
-
          // C11 = A11 * B11 + A12 * B21
          int[][] C11 = addMatrices(
             matrixProductRecurrsive(A, startRowA, startColA, B, startRowB, startColB, midpoint),
