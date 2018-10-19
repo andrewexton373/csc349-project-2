@@ -23,26 +23,26 @@ public class MatrixProduct {
 
          // C11 = A11 * B11 + A12 * B21
          int[][] C11 = addMatrices(
-            matrixProductRecurrsive(A, 0, 0, B, 0, 0, midpoint),
-            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, 0, midpoint),
+            matrixProductRecurrsive(A, startRowA, startColA, B, startRowB, startColB, midpoint),
+            matrixProductRecurrsive(A, startRowA, startColA + midpoint, B, startRowB + midpoint, startColB, midpoint),
             midpoint);
 
          // C12 = A11 * B12 + A12 * B22
          int[][] C12 = addMatrices(
-            matrixProductRecurrsive(A, 0, 0, B, 0, midpoint, midpoint),
-            matrixProductRecurrsive(A, 0, midpoint, B, midpoint, midpoint, midpoint),
+            matrixProductRecurrsive(A, startRowA, startColA, B, startRowB, startColB + midpoint, midpoint),
+            matrixProductRecurrsive(A, startRowA, startColA + midpoint, B, startRowB + midpoint, startColB + midpoint, midpoint),
             midpoint);
 
          // C21 = A21 * B21 + A22 * B21
          int[][] C21 = addMatrices(
-            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, 0, midpoint),
-            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, 0, midpoint),
+            matrixProductRecurrsive(A, startRowA + midpoint, startColA, B, startRowB, startColB, midpoint),
+            matrixProductRecurrsive(A, startRowA+ midpoint, startColA + midpoint, B, startRowB + midpoint, startColB, midpoint),
             midpoint);
 
          // C22 = A21 * B22 + A22 * B22
          int[][] C22 = addMatrices(
-            matrixProductRecurrsive(A, midpoint, 0, B, midpoint, midpoint, midpoint),
-            matrixProductRecurrsive(A, midpoint, midpoint, B, midpoint, midpoint, midpoint),
+            matrixProductRecurrsive(A, startRowA + midpoint, startColA, B, startRowB, startColB + midpoint, midpoint),
+            matrixProductRecurrsive(A, startRowA + midpoint, startColA + midpoint, B, startRowB + midpoint, startColB + midpoint, midpoint),
             midpoint);
 
         C = constructMatrixFromQuadrants(C11, C12, C21, C22);
@@ -131,22 +131,21 @@ public class MatrixProduct {
       return C;
    }
 
-    private static boolean validityCheck(int[][] A, int[][] B) {
-        // System.out.println(A.length);
+   private static boolean validityCheck(int[][] A, int[][] B) {
+      // System.out.println(A.length);
 
-        // System.out.println(A.length == B.length);
-        // System.out.println(A[0].length == B[0].length);
-        // System.out.println(A.length == A[0].length);
-        // System.out.println(isSquare(A.length));
-        // System.out.println(A.length % 2 == 0);
+      // System.out.println(A.length == B.length);
+      // System.out.println(A[0].length == B[0].length);
+      // System.out.println(A.length == A[0].length);
+      // System.out.println(isSquare(A.length));
+      // System.out.println(A.length % 2 == 0);
 
-        if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isSquare(A.length)
-                && A.length % 2 == 0) {
-            return true; // is Valid
-        } else {
-            return false; // is inValid
-        }
-    }
+      if (A.length == B.length && A[0].length == B[0].length && A.length == A[0].length && isPow2(A.length)) {
+         return true; // is Valid
+      } else {
+         return false; // is inValid
+      }
+   }
 
     // For adding whole matrices
     public static int[][] addMatrices(int[][] A, int[][] B, int n) {
@@ -191,15 +190,16 @@ public class MatrixProduct {
         return negatedMatrix;
     }
 
-    public static boolean isSquare(int n) {
-        if (n == 1 || n == 2)
-            return true; // base cases?
-        for (int i = 0; i < n / 2 + 2; i++) {
-            if (i * i == n) {
-                return true;
-            }
-        }
-        return false;
-    }
+   public static boolean isPow2(int n) {
+      if (n == 0)
+         return false;
+      while (n != 1)
+      {
+         if (n % 2 != 0)
+            return false;
+         n = n / 2;
+     }
+     return true;
+   }
 
 }
